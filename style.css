@@ -39,7 +39,7 @@ textarea {
     padding-top: 3px;
     padding-left: 55px;
     border: none;
-    background-image: url("/newnote-fixed.jpg");
+    background-image: url("newnote-fixed.jpg");
     resize: vertical;
     background-size: 100%;
     caret-color: blue;
@@ -90,7 +90,7 @@ form {
     position: relative;
     width: 200px;
     height: 265px;
-    background-image: url("/notebg.png");
+    background-image: url("notebg.png");
     background-repeat: no-repeat;
     padding-top: 50px;
     padding-right: 23px;
