@@ -50,7 +50,7 @@ textarea {
     font-style: italic;
     box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
     opacity: 0.5;
-    transition: opacity 1s ease-in-out, box-shadow 1s ease-in-out;
+    transition: opacity .5s ease-in-out, box-shadow .5s ease-in-out;
     border-radius: 10px;
     outline: 1px solid black;
 }
@@ -70,6 +70,11 @@ form {
     font-size: 22px;
 }
 
+.submit-button:hover {
+    transform: scale(1.1);
+    transition: transform 0.1s ease-in-out;
+}
+
 .tasks-list {
     margin: 15px 20px 0 45px;
     display: grid;
@@ -79,14 +84,20 @@ form {
     padding: 0;
 }
 
-@keyframes expand {
+@keyframes fadeIn {
     from {
         transform: scale(0);
         opacity: 0;
-        background: #5470B0;
+        transition: ease-in-out;
+    }
+    to {
+        transform: scale(1.1);
+        opacity: 1;
+        transition: ease-in-out;
     }
 }
 
+/* 
 @keyframes fadeOut {
     from {
         transform: translateY(0px) translateX(0px) rotate(0deg) opacity(1);
@@ -94,7 +105,7 @@ form {
     to {
         transform: translateY(-300px) translateX(-50px) rotate(180deg) opacity(0.1);
     }
-}
+} */
 
 .task {
     position: relative;
@@ -105,7 +116,7 @@ form {
     padding-top: 50px;
     padding-right: 23px;
     padding-left: 3px;
-    animation: expand .5s ease-in-out;
+    animation: fadeIn .5s ease-in-out;
 }
 
 .task>p {
@@ -133,7 +144,8 @@ form {
 
 footer>p {
     width: 200px;
-    position: absolute;
+    position: sticky;
+    top: 0;
     left: 44%;
     color: whitesmoke;
 }

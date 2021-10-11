@@ -14,6 +14,16 @@ const currTime =
   ":" +
   (today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes());
 
+const keyFramesStart = {
+  transform: "translateY(0px) translateX(0px) scale(1)",
+  opacity: 1,
+};
+
+const keyFramesEnd = {
+  transform: "translateY(-300px) translateX(-50px) rotate(180deg) scale(0.5)",
+  opacity: 0.5,
+};
+
 let date;
 let time;
 
@@ -40,33 +50,27 @@ const onSubmitForm = (e) => {
   tasks.date.push(date.value);
   tasks.time.push(time.value);
   saveTasks(tasks);
+  taskInput.value = "";
 };
 
 const onDeleteButton = (el) => {
+
   const indexOfElement = Array.from(el.parentNode.children).indexOf(el);
+
   tasks.text.splice(indexOfElement, 1);
   tasks.date.splice(indexOfElement, 1);
   tasks.time.splice(indexOfElement, 1);
+
   saveTasks(tasks);
-  el.animate(
-    [
-      // keyframes
-      {
-        transform: "translateY(0px) translateX(0px) scale(1)",
-        opacity: 1
-      },
-      {
-        transform:
-          "translateY(-300px) translateX(-50px) rotate(180deg) scale(0.5)",
-          opacity: 0.5
-      },
-    ],
-    { duration: 500 }
-  );
+
+  if(!tasks.text.length) resetStorage()
+
+  el.animate([keyFramesStart, keyFramesEnd], { duration: 500 });
 
   setTimeout(() => {
     el.remove();
   }, 500);
+
 };
 
 const ce = (e) => document.createElement(e);
@@ -125,3 +129,7 @@ const loadTasks = () => {
     });
   }
 };
+
+const resetStorage = () => {
+  localStorage.removeItem(TASKS_DATA)
+}
