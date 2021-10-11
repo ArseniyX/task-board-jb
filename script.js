@@ -6,11 +6,8 @@ let tasks = [];
 
 onload = () => {
   tasksList = document.querySelector(".tasks-list");
-  
-  const savedTasks = localStorage.getItem(TASKS_LIST);
 
-  if (savedTasks !== null) tasks = savedTasks.split(",");
-  tasks.forEach((task) => appendTask(task));
+  loadTasks();
   // console.log("onload called");
 };
 
@@ -23,8 +20,8 @@ const onSubmitForm = (e) => {
 
   appendTask(taskText);
   tasks.push(taskText);
-  saveTasks(tasks)
-  taskInput.value = ""
+  saveTasks(tasks);
+  taskInput.value = "";
   // console.log("onSubmitForm called", tasks, taskText);
 };
 
@@ -50,11 +47,29 @@ const onDeleteButton = (el) => {
   // console.log("onDeleteButton called");
   const indexOfElement = Array.from(el.parentNode.children).indexOf(el);
   tasks.splice(indexOfElement, 1);
-  saveTasks(tasks)
-  el.remove();
+  saveTasks(tasks);
+  el.animate(
+    [
+      // keyframes
+      { transform: "translateY(0px) translateX(0px) rotate(0deg)" },
+      { transform: "translateY(-300px) translateX(-50px) rotate(180deg)" },
+    ],
+    { duration: 500 }
+  );
+
+  setTimeout(() => {
+    el.remove();
+  }, 500);
 };
 
 const saveTasks = (tasks) => {
-  localStorage.setItem(TASKS_LIST, tasks);
-  if(tasks.length === 0) localStorage.removeItem(TASKS_LIST)
+  const tasksJson = JSON.stringify({ ...tasks });
+  localStorage.setItem(TASKS_LIST, tasksJson);
+};
+
+const loadTasks = () => {
+  const savedTasksJson = localStorage.getItem(TASKS_LIST);
+  const savedTasksObj = JSON.parse(savedTasksJson);
+  if (savedTasksJson !== null) tasks = Object.values(savedTasksObj);
+  tasks.forEach((task) => appendTask(task));
 };

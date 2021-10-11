@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Yesteryear&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
-
 * {
     box-sizing: border-box;
 }
@@ -86,6 +85,15 @@ form {
     }
 }
 
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
 .task {
     position: relative;
     width: 200px;
@@ -121,7 +129,7 @@ form {
     opacity: 1;
 }
 
-footer > p {
+footer>p {
     width: 200px;
     position: absolute;
     left: 44%;
