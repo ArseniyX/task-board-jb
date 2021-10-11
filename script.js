@@ -4,27 +4,28 @@ let tasksList;
 
 let tasks = { text: [], date: [], time: [] };
 
+const today = new Date();
+
+const currDate =
+  today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+
+const currTime =
+  today.getHours() +
+  ":" +
+  (today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes());
+
 let date;
 let time;
 
 onload = () => {
   date = document.querySelector('input[type="date"]');
   time = document.querySelector('input[type="time"]');
-  const today = new Date();
-  const currDate =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-
-  const currTime =
-    today.getHours() +
-    ":" +
-    (today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes());
 
   date.value = currDate;
   time.value = currTime;
 
   tasksList = document.querySelector(".tasks-list");
   loadTasks();
-  // console.log("onload called");
 };
 
 const onSubmitForm = (e) => {
@@ -50,8 +51,15 @@ const onDeleteButton = (el) => {
   el.animate(
     [
       // keyframes
-      { transform: "translateY(0px) translateX(0px) rotate(0deg)" },
-      { transform: "translateY(-300px) translateX(-50px) rotate(180deg)" },
+      {
+        transform: "translateY(0px) translateX(0px) scale(1)",
+        opacity: 1
+      },
+      {
+        transform:
+          "translateY(-300px) translateX(-50px) rotate(180deg) scale(0.5)",
+          opacity: 0.5
+      },
     ],
     { duration: 500 }
   );
@@ -61,7 +69,7 @@ const onDeleteButton = (el) => {
   }, 500);
 };
 
-const ce = (e) => document.createElement(e)
+const ce = (e) => document.createElement(e);
 
 const appendTask = (task, nDate, nTime) => {
   const listElement = ce("li");
@@ -86,10 +94,10 @@ const appendDate = (el, nDate, nTime) => {
   const dateElement = ce("time");
   const timeElement = ce("time");
   const dateBlock = ce("div");
-  dateBlock.classList.add("date-container")
+  dateBlock.classList.add("date-container");
 
-  const arr = nDate.split("-")
-  const dateFormatted = arr[2] + "/" + arr[1] + "/" + arr[0]
+  const arr = nDate.split("-");
+  const dateFormatted = arr[2] + "/" + arr[1] + "/" + arr[0];
 
   dateElement.setAttribute("datetime", dateFormatted);
   timeElement.setAttribute("datetime", nTime);
@@ -99,11 +107,10 @@ const appendDate = (el, nDate, nTime) => {
 
   dateBlock.append(dateElement);
   dateBlock.append(timeElement);
-  el.append(dateBlock)
+  el.append(dateBlock);
 };
 
 const saveTasks = (tasks) => {
-
   const tasksJson = JSON.stringify(tasks);
   localStorage.setItem(TASKS_DATA, tasksJson);
 };

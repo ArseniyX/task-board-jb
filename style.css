@@ -89,10 +89,10 @@ form {
 
 @keyframes fadeOut {
     from {
-        transform: translateY(0px) translateX(0px) rotate(0deg);
+        transform: translateY(0px) translateX(0px) rotate(0deg) opacity(1);
     }
     to {
-        transform: translateY(-300px) translateX(-50px) rotate(180deg);
+        transform: translateY(-300px) translateX(-50px) rotate(180deg) opacity(0.1);
     }
 }
 
