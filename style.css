@@ -119,6 +119,10 @@ form {
     animation: fadeIn .5s ease-in-out;
 }
 
+.task:hover .delete-button {
+    opacity: 1;
+}
+
 .task>p {
     font-family: 'Indie Flower', cursive;
     text-align: left;
@@ -134,11 +138,11 @@ form {
     top: 20px;
     border-radius: 5px;
     height: 28px;
-    opacity: 0.3;
-    transition: opacity .5s ease-in-out;
+    opacity: 0;
+    transition: opacity .7s ease-in-out;
 }
 
-.delete-button:hover {
+.task:hover .delete-button {
     opacity: 1;
 }
 
