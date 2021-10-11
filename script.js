@@ -1,52 +1,51 @@
-const TASKS_LIST = "tasks-list";
+const TASKS_DATA = "tasks-data";
 
 let tasksList;
 
-let tasks = [];
+let tasks = { text: [], date: [], time: [] };
+
+let date;
+let time;
 
 onload = () => {
-  tasksList = document.querySelector(".tasks-list");
+  date = document.querySelector('input[type="date"]');
+  time = document.querySelector('input[type="time"]');
+  const today = new Date();
+  const currDate =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
+  const currTime =
+    today.getHours() +
+    ":" +
+    (today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes());
+
+  date.value = currDate;
+  time.value = currTime;
+
+  tasksList = document.querySelector(".tasks-list");
   loadTasks();
   // console.log("onload called");
 };
 
 const onSubmitForm = (e) => {
   e.preventDefault();
+
   const taskInput = document.querySelector(".task-input");
   let taskText = taskInput.value
     .replace(/\n\r?/g, "<br/>")
     .replace(/\s/g, "&nbsp;");
-
-  appendTask(taskText);
-  tasks.push(taskText);
+  appendTask(taskText, date.value, time.value);
+  tasks.text.push(taskText);
+  tasks.date.push(date.value);
+  tasks.time.push(time.value);
   saveTasks(tasks);
-  taskInput.value = "";
-  // console.log("onSubmitForm called", tasks, taskText);
-};
-
-const appendTask = (task) => {
-  const listElement = document.createElement("li");
-  const taskElement = document.createElement("p");
-  appendDeleteButton(listElement);
-  taskElement.innerHTML = task;
-  listElement.append(taskElement);
-  listElement.classList.add("task");
-  // listElement.setAttribute("droppable", true);
-  tasksList.append(listElement);
-};
-
-const appendDeleteButton = (el) => {
-  const exitButton = document.createElement("button");
-  exitButton.classList.add("glyphicon", "glyphicon-remove", "delete-button");
-  exitButton.addEventListener("click", () => onDeleteButton(el));
-  el.append(exitButton);
 };
 
 const onDeleteButton = (el) => {
-  // console.log("onDeleteButton called");
   const indexOfElement = Array.from(el.parentNode.children).indexOf(el);
-  tasks.splice(indexOfElement, 1);
+  tasks.text.splice(indexOfElement, 1);
+  tasks.date.splice(indexOfElement, 1);
+  tasks.time.splice(indexOfElement, 1);
   saveTasks(tasks);
   el.animate(
     [
@@ -62,14 +61,60 @@ const onDeleteButton = (el) => {
   }, 500);
 };
 
+const ce = (e) => document.createElement(e)
+
+const appendTask = (task, nDate, nTime) => {
+  const listElement = ce("li");
+  const taskElement = ce("p");
+
+  appendDeleteButton(listElement);
+  taskElement.innerHTML = task;
+  listElement.append(taskElement);
+  listElement.classList.add("task");
+  tasksList.append(listElement);
+  appendDate(listElement, nDate, nTime);
+};
+
+const appendDeleteButton = (el) => {
+  const delButton = ce("button");
+  delButton.classList.add("glyphicon", "glyphicon-remove", "delete-button");
+  delButton.addEventListener("click", () => onDeleteButton(el));
+  el.append(delButton);
+};
+
+const appendDate = (el, nDate, nTime) => {
+  const dateElement = ce("time");
+  const timeElement = ce("time");
+  const dateBlock = ce("div");
+  dateBlock.classList.add("date-container")
+
+  const arr = nDate.split("-")
+  const dateFormatted = arr[2] + "/" + arr[1] + "/" + arr[0]
+
+  dateElement.setAttribute("datetime", dateFormatted);
+  timeElement.setAttribute("datetime", nTime);
+
+  dateElement.innerHTML = dateFormatted;
+  timeElement.innerHTML = nTime;
+
+  dateBlock.append(dateElement);
+  dateBlock.append(timeElement);
+  el.append(dateBlock)
+};
+
 const saveTasks = (tasks) => {
-  const tasksJson = JSON.stringify({ ...tasks });
-  localStorage.setItem(TASKS_LIST, tasksJson);
+
+  const tasksJson = JSON.stringify(tasks);
+  localStorage.setItem(TASKS_DATA, tasksJson);
 };
 
 const loadTasks = () => {
-  const savedTasksJson = localStorage.getItem(TASKS_LIST);
-  const savedTasksObj = JSON.parse(savedTasksJson);
-  if (savedTasksJson !== null) tasks = Object.values(savedTasksObj);
-  tasks.forEach((task) => appendTask(task));
+  const savedTasksJson = localStorage.getItem(TASKS_DATA);
+  const savedTasks = JSON.parse(savedTasksJson);
+  if (savedTasks !== null) {
+    tasks = { ...savedTasks };
+    tasks.text.forEach((task, index) => {
+      appendTask(task, tasks.date[index], tasks.time[index]);
+    });
+  }
 };

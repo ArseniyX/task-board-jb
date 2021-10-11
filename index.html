@@ -20,10 +20,18 @@
     </header>
     <main>
         <form onsubmit="onSubmitForm(event)">
-            <textarea spellcheck="false" required minlength="1" class="task-input" name="" id="" cols="30" rows="5"></textarea>
-            <button type="submit" class="btn btn-primary submit-button" aria-label="Left Align">
-                +
-            </button>
+            <textarea spellcheck="false" required minlength="1" class="task-input" name="" id="" cols="30"
+                rows="5"></textarea>
+            <div class="date-and-time">
+                <input type="date" min="2020-01-01" max="2023-01-01" class="btn" data-date-format="mm/dd/yyyy" required />
+                <input type="time" class="btn" required />
+                <input type="reset" class="btn">
+                <button type="submit" class="btn btn-primary submit-button" aria-label="Left Align">
+                    +
+                </button>
+            </div>
+
+
         </form>
         <ul class="tasks-list"></ul>
     </main>

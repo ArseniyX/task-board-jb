@@ -12,12 +12,11 @@ body {
 }
 
 header {
-    margin-top: 50px;
+    margin-top: 40px;
     text-align: center;
 }
 
 main {
-    margin-top: 20px;
     text-align: center;
 }
 
@@ -28,9 +27,15 @@ h1 {
     letter-spacing: 10px;
     margin-right: -10px;
     margin: 0;
+    transition: color 0.5s ease-in-out;
+}
+
+h1:hover {
+    color: rgb(98, 248, 166);
 }
 
 textarea {
+    margin-top: 5px;
     font-family: cursive;
     font-size: 19.7px;
     line-height: 1.3;
@@ -47,6 +52,7 @@ textarea {
     opacity: 0.5;
     transition: opacity 1s ease-in-out, box-shadow 1s ease-in-out;
     border-radius: 10px;
+    outline: 1px solid black;
 }
 
 textarea:focus {
@@ -59,17 +65,13 @@ form {
 }
 
 .submit-button {
-    right: 50%;
-    bottom: -16px;
-    position: absolute;
     border-radius: 50%;
-    margin-right: -22.5px;
     width: 45px;
     font-size: 22px;
 }
 
 .tasks-list {
-    margin: 40px 20px 0 45px;
+    margin: 15px 20px 0 45px;
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);
     grid-gap: 30px;
@@ -87,10 +89,10 @@ form {
 
 @keyframes fadeOut {
     from {
-        opacity: 1;
+        transform: translateY(0px) translateX(0px) rotate(0deg);
     }
     to {
-        opacity: 0;
+        transform: translateY(-300px) translateX(-50px) rotate(180deg);
     }
 }
 
@@ -110,7 +112,7 @@ form {
     font-family: 'Indie Flower', cursive;
     text-align: left;
     padding-left: 15px;
-    height: 145px;
+    height: 140px;
     overflow: auto;
 }
 
@@ -134,4 +136,22 @@ footer>p {
     position: absolute;
     left: 44%;
     color: whitesmoke;
+}
+
+.date-and-time {
+    display: flex;
+    justify-content: space-between;
+    max-width: 425px;
+    margin: 20px auto;
+}
+
+.date-container {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+}
+
+time {
+    font-weight: bold;
 }
